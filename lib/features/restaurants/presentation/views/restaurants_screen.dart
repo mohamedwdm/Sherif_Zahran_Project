@@ -24,7 +24,7 @@ class RestaurantsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     RestaurantsSearch(),
-                    RestaurantsCategories(),
+                    // RestaurantsCategories(),
                     RestaurantsList(),
                   ],
                 ),

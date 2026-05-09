@@ -12,10 +12,10 @@ class RestaurantsHeader extends StatelessWidget {
         children: [
           Row(
             children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back, color: Color(0xFFFF7A00)),
-                onPressed: () {},
-              ),
+              // IconButton(
+              //   icon: const Icon(Icons.arrow_back, color: Color(0xFFFF7A00)),
+              //   onPressed: () {},
+              // ),
               const Text(
                 'FoodFinder',
                 style: TextStyle(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SearchHeader extends StatelessWidget {
-  const SearchHeader({super.key});
+class DirectionsHeader extends StatelessWidget {
+  const DirectionsHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +12,14 @@ class SearchHeader extends StatelessWidget {
         children: [
           Row(
             children: [
-              // IconButton(
-              //   icon: const Icon(Icons.arrow_back, color: Color(0xFFFF7A00)),
-              //   onPressed: () => Navigator.pop(context),
-              // ),
+              IconButton(
+                icon: const Icon(Icons.arrow_back, color: Color(0xFFFF7A00)),
+                onPressed: () => Navigator.pop(context),
+              ),
               const Text(
-                'FoodFinder',
+                'Directions',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFFFF7A00),
                 ),
