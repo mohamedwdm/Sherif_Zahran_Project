@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/restaurants_bottom_nav_bar.dart';
+import '../../../../core/widgets/app_bottom_nav_bar.dart';
 import 'widgets/restaurants_categories.dart';
 import 'widgets/restaurants_header.dart';
 import 'widgets/restaurants_list.dart';
@@ -33,7 +33,7 @@ class RestaurantsScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: RestaurantsBottomNavBar(),
+      bottomNavigationBar: const AppBottomNavBar(currentIndex: 0),
     );
   }
 }
