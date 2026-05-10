@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_project/features/auth/data/repos/auth_repo.dart';
 
@@ -12,6 +13,12 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       await authRepo.login(email: email, password: password);
       emit(AuthSuccess());
+    } on DioException catch (e) {
+      String message = "Login failed";
+      if (e.response?.data != null && e.response?.data is Map) {
+        message = e.response?.data['detail'] ?? e.response?.data['message'] ?? message;
+      }
+      emit(AuthFailure(errMessage: message));
     } catch (e) {
       emit(AuthFailure(errMessage: e.toString()));
     }
@@ -21,6 +28,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String name,
     required String email,
     required String password,
+    required String confirmPassword,
     required String gender,
     required String level,
   }) async {
@@ -30,10 +38,22 @@ class AuthCubit extends Cubit<AuthState> {
         name: name,
         email: email,
         password: password,
+        confirmPassword: confirmPassword,
         gender: gender,
         level: level,
       );
       emit(AuthSuccess());
+    } on DioException catch (e) {
+      String message = "Signup failed";
+      if (e.response?.data != null) {
+        // The backend returns strings directly for some errors according to docs
+        if (e.response?.data is String) {
+          message = e.response?.data;
+        } else if (e.response?.data is Map) {
+          message = e.response?.data['message'] ?? e.response?.data['detail'] ?? message;
+        }
+      }
+      emit(AuthFailure(errMessage: message));
     } catch (e) {
       emit(AuthFailure(errMessage: e.toString()));
     }
@@ -43,7 +63,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       await authRepo.logout();
-      emit(AuthInitial()); // Reset to initial state
+      emit(AuthInitial());
     } catch (e) {
       emit(AuthFailure(errMessage: e.toString()));
     }

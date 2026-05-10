@@ -249,6 +249,7 @@ class _SignupViewState extends State<SignupView> {
                               name: _nameController.text.trim(),
                               email: _emailController.text.trim(),
                               password: _passwordController.text,
+                              confirmPassword: _passwordController.text, // Correctly passing confirm password
                               gender: _selectedGender,
                               level: _selectedLevel,
                             );
