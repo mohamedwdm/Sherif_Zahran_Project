@@ -1,15 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/models/restaurant.dart';
+import '../../../restaurants/data/repos/restaurant_repo.dart';
 import 'products_state.dart';
 
 class ProductsCubit extends Cubit<ProductsState> {
-  ProductsCubit() : super(ProductsInitial());
+  final RestaurantRepo repo;
+
+  ProductsCubit(this.repo) : super(ProductsInitial());
 
   Future<void> loadProducts(Restaurant restaurant) async {
     emit(ProductsLoading());
     try {
-      await Future.delayed(const Duration(milliseconds: 300));
-      emit(ProductsLoaded(restaurant.products));
+      final products = await repo.getRestaurantProducts(restaurant.id);
+      emit(ProductsLoaded(products));
     } catch (e) {
       emit(ProductsError(e.toString()));
     }

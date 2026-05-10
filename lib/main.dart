@@ -4,7 +4,6 @@ import 'core/theme/app_theme.dart';
 import 'features/restaurants/data/repos/restaurant_repo.dart';
 import 'features/restaurants/presentation/manager/restaurants_cubit.dart';
 import 'features/auth/presentation/views/login_view.dart';
-import 'features/restaurants/presentation/views/restaurants_screen.dart';
 
 import 'package:mobile_project/features/auth/data/repos/auth_repo.dart';
 import 'package:mobile_project/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
@@ -29,19 +28,15 @@ class FoodFinderApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => RestaurantsCubit(
-              context.read<RestaurantRepo>(),
-            )..loadRestaurants(),
+            create: (context) =>
+                RestaurantsCubit(context.read<RestaurantRepo>())
+                  ..loadRestaurants(),
           ),
           BlocProvider(
-            create: (context) => AuthCubit(
-              context.read<AuthRepo>(),
-            ),
+            create: (context) => AuthCubit(context.read<AuthRepo>()),
           ),
           BlocProvider(
-            create: (context) => ProfileCubit(
-              context.read<ProfileRepo>(),
-            ),
+            create: (context) => ProfileCubit(context.read<ProfileRepo>()),
           ),
         ],
         child: MaterialApp(
