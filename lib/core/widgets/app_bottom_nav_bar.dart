@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../features/restaurants/presentation/views/restaurants_screen.dart';
 import '../../../features/search/presentation/views/search_screen.dart';
+import '../../../features/profile/presentation/views/profile_view.dart';
 
 class AppBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -59,7 +60,12 @@ class AppBottomNavBar extends StatelessWidget {
             label: 'Profile',
             index: 2,
             onTap: () {
-              // Placeholder for Profile screen
+              if (currentIndex != 2) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfileView()),
+                );
+              }
             },
           ),
         ],
