@@ -33,13 +33,10 @@ class RestaurantsList extends StatelessWidget {
                 if (state.restaurants.isEmpty) {
                   return const Center(child: Text('No restaurants found.'));
                 }
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.restaurants.length,
-                  itemBuilder: (context, index) {
-                    return RestaurantCard(restaurant: state.restaurants[index]);
-                  },
+                return Column(
+                  children: state.restaurants.map((restaurant) {
+                    return RestaurantCard(restaurant: restaurant);
+                  }).toList(),
                 );
               }
               return const SizedBox.shrink();

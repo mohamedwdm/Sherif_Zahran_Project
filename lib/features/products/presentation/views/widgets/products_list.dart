@@ -24,16 +24,13 @@ class ProductsList extends StatelessWidget {
             if (state.products.isEmpty) {
               return const Center(child: Text('No products available.'));
             }
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: state.products.length,
-              itemBuilder: (context, index) {
+            return Column(
+              children: state.products.map((product) {
                 return ProductCard(
-                  product: state.products[index],
+                  product: product,
                   restaurant: restaurant,
                 );
-              },
+              }).toList(),
             );
           }
           return const SizedBox.shrink();

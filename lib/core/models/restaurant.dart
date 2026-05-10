@@ -1,3 +1,4 @@
+import '../api/api_service.dart';
 import 'product.dart';
 
 class Restaurant {
@@ -28,7 +29,7 @@ class Restaurant {
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
-    final String? imgUrl = json['image_url'];
+    final String? imgUrl = ApiService.fixUrl(json['image_url']);
     final defaultImage = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
 
     return Restaurant(

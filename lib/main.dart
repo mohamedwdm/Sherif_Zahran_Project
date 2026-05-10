@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_project/core/utils/api_service.dart';
+import 'package:mobile_project/features/restaurants/presentation/views/restaurants_screen.dart';
 import 'core/theme/app_theme.dart';
 import 'features/restaurants/data/repos/restaurant_repo.dart';
 import 'features/restaurants/presentation/manager/restaurants_cubit.dart';
@@ -26,9 +27,7 @@ class FoodFinderApp extends StatelessWidget {
         RepositoryProvider(create: (context) => ApiService(Dio())),
         RepositoryProvider(create: (context) => RestaurantRepo()),
         RepositoryProvider(
-          create: (context) => AuthRepo(
-            context.read<ApiService>(),
-          ),
+          create: (context) => AuthRepo(context.read<ApiService>()),
         ),
         RepositoryProvider(create: (context) => ProfileRepo()),
       ],
@@ -49,7 +48,8 @@ class FoodFinderApp extends StatelessWidget {
         child: MaterialApp(
           title: 'FoodFinder',
           theme: AppTheme.lightTheme,
-          home: const LoginView(),
+          // home: const LoginView(),
+          home: const RestaurantsScreen(),
           debugShowCheckedModeBanner: false,
         ),
       ),

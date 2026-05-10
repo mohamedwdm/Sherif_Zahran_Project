@@ -28,4 +28,19 @@ class RestaurantRepo {
       return [];
     }
   }
+
+  Future<List<Restaurant>> searchRestaurantsByProduct(String query) async {
+    try {
+      final response = await ApiService.dio.get('/restaurant-products/search', queryParameters: {
+        'product_name': query,
+      });
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        return data.map((json) => Restaurant.fromJson(json)).toList();
+      }
+      return [];
+    } catch (e) {
+      return [];
+    }
+  }
 }

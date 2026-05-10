@@ -1,3 +1,5 @@
+import '../api/api_service.dart';
+
 class Product {
   final int id;
   final String name;
@@ -14,7 +16,7 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
-    final String? imgUrl = json['image_url'];
+    final String? imgUrl = ApiService.fixUrl(json['image_url']);
     final defaultImage = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
 
     return Product(
