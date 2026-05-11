@@ -42,7 +42,9 @@ class ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
+              borderRadius: const BorderRadius.horizontal(
+                left: Radius.circular(12),
+              ),
               child: Image.network(
                 product.image,
                 width: 120,
@@ -78,10 +80,7 @@ class ProductCard extends StatelessWidget {
                       product.description,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                     const Spacer(),
                     Row(
@@ -95,15 +94,15 @@ class ProductCard extends StatelessWidget {
                             color: Color(0xFFFF7A00),
                           ),
                         ),
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFFF7A00),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.add, color: Colors.white, size: 18),
-                        ),
+                        // Container(
+                        //   width: 32,
+                        //   height: 32,
+                        //   decoration: const BoxDecoration(
+                        //     color: Color(0xFFFF7A00),
+                        //     shape: BoxShape.circle,
+                        //   ),
+                        //   child: const Icon(Icons.add, color: Colors.white, size: 18),
+                        // ),
                       ],
                     ),
                   ],

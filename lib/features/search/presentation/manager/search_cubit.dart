@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
-import '../../../../core/models/restaurant.dart';
 import '../../../restaurants/data/repos/restaurant_repo.dart';
 import 'search_state.dart';
 
@@ -9,9 +8,7 @@ class SearchCubit extends Cubit<SearchState> {
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>();
 
   SearchCubit(this._restaurantRepo) : super(SearchInitial()) {
-    _searchSubject.stream
-        .distinct()
-        .listen(_performSearch);
+    _searchSubject.stream.distinct().listen(_performSearch);
   }
 
   void searchProduct(String productName) {
@@ -19,13 +16,15 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void _performSearch(String query) async {
-    if (query.isEmpty || query == 'All Categories' || query == 'Select a product') {
+    if (query.isEmpty ||
+        query == 'All Categories' ||
+        query == 'Select a product') {
       emit(SearchInitial());
       return;
     }
 
     emit(SearchSearching());
-    
+
     try {
       final results = await _restaurantRepo.searchRestaurantsByProduct(query);
 
