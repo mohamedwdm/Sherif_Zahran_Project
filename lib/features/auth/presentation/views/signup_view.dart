@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_project/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:mobile_project/features/auth/presentation/views/login_view.dart';
 import 'package:mobile_project/features/restaurants/presentation/views/restaurants_screen.dart';
 import '../widgets/auth_widgets.dart';
 
@@ -16,7 +17,7 @@ class _SignupViewState extends State<SignupView> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  
+
   bool _agreeToTerms = false;
   String _selectedLevel = 'Level 1 - Newbie';
   String _selectedGender = 'Male';
@@ -57,7 +58,7 @@ class _SignupViewState extends State<SignupView> {
           if (state is AuthSuccess) {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const RestaurantsScreen()),
+              MaterialPageRoute(builder: (context) => const LoginView()),
               (route) => false,
             );
           } else if (state is AuthFailure) {
@@ -99,19 +100,20 @@ class _SignupViewState extends State<SignupView> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  
+
                   CustomTextField(
                     controller: _nameController,
                     label: 'Full Name',
                     hint: 'John Doe',
                     prefixIcon: Icons.person_outline,
                     validator: (value) {
-                      if (value == null || value.isEmpty) return 'Please enter your name';
+                      if (value == null || value.isEmpty)
+                        return 'Please enter your name';
                       return null;
                     },
                   ),
                   const SizedBox(height: 24),
-                  
+
                   CustomTextField(
                     controller: _emailController,
                     label: 'Email Address',
@@ -119,22 +121,25 @@ class _SignupViewState extends State<SignupView> {
                     prefixIcon: Icons.mail_outline,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
-                      if (value == null || value.isEmpty) return 'Please enter your email';
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                      if (value == null || value.isEmpty)
+                        return 'Please enter your email';
+                      if (!RegExp(
+                        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(value)) {
                         return 'Please enter a valid email';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 24),
-                  
+
                   GenderSelector(
                     onChanged: (gender) {
                       _selectedGender = gender;
                     },
                   ),
                   const SizedBox(height: 24),
-                  
+
                   CustomDropdown(
                     label: 'Experience Level',
                     value: _selectedLevel,
@@ -145,10 +150,12 @@ class _SignupViewState extends State<SignupView> {
                       'Level 4 - Culinary Critic',
                     ],
                     prefixIcon: Icons.bar_chart,
-                    onChanged: (value) => setState(() => _selectedLevel = value ?? _selectedLevel),
+                    onChanged: (value) => setState(
+                      () => _selectedLevel = value ?? _selectedLevel,
+                    ),
                   ),
                   const SizedBox(height: 24),
-                  
+
                   CustomTextField(
                     label: 'Password',
                     hint: '••••••••',
@@ -156,25 +163,28 @@ class _SignupViewState extends State<SignupView> {
                     isPassword: true,
                     controller: _passwordController,
                     validator: (value) {
-                      if (value == null || value.isEmpty) return 'Please enter a password';
-                      if (value.length < 6) return 'Password must be at least 6 characters';
+                      if (value == null || value.isEmpty)
+                        return 'Please enter a password';
+                      if (value.length < 6)
+                        return 'Password must be at least 6 characters';
                       return null;
                     },
                   ),
                   const SizedBox(height: 24),
-                  
+
                   CustomTextField(
                     label: 'Confirm Password',
                     hint: '••••••••',
                     prefixIcon: Icons.lock_reset,
                     isPassword: true,
                     validator: (value) {
-                      if (value != _passwordController.text) return 'Passwords do not match';
+                      if (value != _passwordController.text)
+                        return 'Passwords do not match';
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
-                  
+
                   FormField<bool>(
                     initialValue: _agreeToTerms,
                     validator: (value) {
@@ -191,11 +201,15 @@ class _SignupViewState extends State<SignupView> {
                               Checkbox(
                                 value: _agreeToTerms,
                                 onChanged: (value) {
-                                  setState(() => _agreeToTerms = value ?? false);
+                                  setState(
+                                    () => _agreeToTerms = value ?? false,
+                                  );
                                   formState.didChange(value);
                                 },
                                 activeColor: const Color(0xFFFF7A00),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
                               ),
                               const Expanded(
                                 child: Padding(
@@ -211,12 +225,18 @@ class _SignupViewState extends State<SignupView> {
                                       children: [
                                         TextSpan(
                                           text: 'Terms of Service',
-                                          style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFFF7A00)),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFFFF7A00),
+                                          ),
                                         ),
                                         TextSpan(text: ' and '),
                                         TextSpan(
                                           text: 'Privacy Policy',
-                                          style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFFF7A00)),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFFFF7A00),
+                                          ),
                                         ),
                                         TextSpan(text: '.'),
                                       ],
@@ -231,7 +251,10 @@ class _SignupViewState extends State<SignupView> {
                               padding: const EdgeInsets.only(left: 12),
                               child: Text(
                                 formState.errorText!,
-                                style: const TextStyle(color: Colors.red, fontSize: 12),
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
                         ],
@@ -239,58 +262,61 @@ class _SignupViewState extends State<SignupView> {
                     },
                   ),
                   const SizedBox(height: 32),
-                  
+
                   ElevatedButton(
                     onPressed: state is AuthLoading
-                      ? null
-                      : () {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<AuthCubit>().signup(
-                              name: _nameController.text.trim(),
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text,
-                              confirmPassword: _passwordController.text, // Correctly passing confirm password
-                              gender: _selectedGender,
-                              level: _selectedLevel,
-                            );
-                          }
-                        },
+                        ? null
+                        : () {
+                            if (_formKey.currentState!.validate()) {
+                              context.read<AuthCubit>().signup(
+                                name: _nameController.text.trim(),
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text,
+                                confirmPassword: _passwordController
+                                    .text, // Correctly passing confirm password
+                                gender: _selectedGender,
+                                level: _selectedLevel,
+                              );
+                            }
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFF7A00),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       minimumSize: const Size(double.infinity, 56),
                       elevation: 4,
                       shadowColor: const Color(0xFFFF7A00).withOpacity(0.2),
                     ),
                     child: state is AuthLoading
-                      ? const SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          ),
-                        )
-                      : const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Signup',
-                              style: TextStyle(
-                                fontFamily: 'Plus Jakarta Sans',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
                             ),
-                            SizedBox(width: 8),
-                            Icon(Icons.arrow_forward),
-                          ],
-                        ),
+                          )
+                        : const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Signup',
+                                style: TextStyle(
+                                  fontFamily: 'Plus Jakarta Sans',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(Icons.arrow_forward),
+                            ],
+                          ),
                   ),
                   const SizedBox(height: 24),
-                  
+
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -318,9 +344,9 @@ class _SignupViewState extends State<SignupView> {
                       ],
                     ),
                   ),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Glassmorphic Accent
                   Container(
                     padding: const EdgeInsets.all(24),
@@ -338,7 +364,10 @@ class _SignupViewState extends State<SignupView> {
                             color: Color(0xFFFFDBC8),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.restaurant, color: Color(0xFFFF7A00)),
+                          child: const Icon(
+                            Icons.restaurant,
+                            color: Color(0xFFFF7A00),
+                          ),
                         ),
                         const SizedBox(width: 16),
                         const Column(

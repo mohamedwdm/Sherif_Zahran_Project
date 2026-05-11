@@ -50,8 +50,8 @@ class FoodFinderApp extends StatelessWidget {
         child: MaterialApp(
           title: 'FoodFinder',
           theme: AppTheme.lightTheme,
-          // home: const LoginView(),
-          home: const RestaurantsScreen(),
+          home: const LoginView(),
+          // home: const RestaurantsScreen(),
           debugShowCheckedModeBanner: false,
         ),
       ),
