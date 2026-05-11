@@ -13,6 +13,8 @@ class Restaurant {
   final int deliveryTimeMin;
   final int deliveryTimeMax;
   final double deliveryFee;
+  final double? latitude;
+  final double? longitude;
 
   Restaurant({
     required this.id,
@@ -26,6 +28,8 @@ class Restaurant {
     this.deliveryTimeMin = 20,
     this.deliveryTimeMax = 30,
     this.deliveryFee = 0.0,
+    this.latitude,
+    this.longitude,
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
@@ -44,6 +48,8 @@ class Restaurant {
       deliveryTimeMin: 20,
       deliveryTimeMax: 30,
       deliveryFee: 0.0,
+      latitude: json['latitude'] != null ? (json['latitude'] as num).toDouble() : null,
+      longitude: json['longitude'] != null ? (json['longitude'] as num).toDouble() : null,
     );
   }
 }
