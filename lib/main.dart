@@ -29,7 +29,9 @@ class FoodFinderApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) => AuthRepo(context.read<ApiService>()),
         ),
-        RepositoryProvider(create: (context) => ProfileRepo()),
+        RepositoryProvider(
+          create: (context) => ProfileRepo(context.read<ApiService>()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [

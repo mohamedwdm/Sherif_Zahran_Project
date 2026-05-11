@@ -4,8 +4,7 @@ import 'package:mobile_project/core/widgets/app_bottom_nav_bar.dart';
 import 'package:mobile_project/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:mobile_project/features/auth/presentation/views/login_view.dart';
 import 'package:mobile_project/features/profile/presentation/manager/profile_cubit/profile_cubit.dart';
-import 'package:mobile_project/features/profile/presentation/views/order_history_view.dart';
-import 'package:mobile_project/features/profile/presentation/views/payment_methods_view.dart';
+
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -17,10 +16,16 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   final _dialogFormKey = GlobalKey<FormState>();
 
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileCubit>().fetchUserData();
+  }
+
   // Temporary holders for dialog state
   String currentName = 'Alex Thompson';
   String currentEmail = 'alex.thompson@example.com';
-  String currentPhone = '+1 (555) 0123-4567';
+
 
   void _showEditDialog({
     required String title,
@@ -57,7 +62,7 @@ class _ProfileViewState extends State<ProfileView> {
                 context.read<ProfileCubit>().updateProfile(
                   name: currentName,
                   email: currentEmail,
-                  phone: currentPhone,
+
                 );
               }
             },
@@ -94,7 +99,7 @@ class _ProfileViewState extends State<ProfileView> {
               setState(() {
                 currentName = state.name;
                 currentEmail = state.email;
-                currentPhone = state.phone;
+
               });
             }
           },
@@ -105,26 +110,7 @@ class _ProfileViewState extends State<ProfileView> {
         appBar: AppBar(
           leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context)),
           title: const Text('FoodFinder'),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFFF7A00), width: 2),
-                ),
-                child: const ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  child: Image(
-                    image: NetworkImage('https://lh3.googleusercontent.com/aida-public/AB6AXuBYSVXhjPuhMTByGbRJsIi6tQUlnXxkbUMfSSKU90Da0iT1blm8YnD_ENOxf2IuLGPD5kWpMCS5CqyAcbwRQ6I14TpBzkxWTLuBHIgWOu5-eNnkuTJ8sbu3rV3X1YkG9ta3lfI6OzfWK1x1PvJ5Mi_fiBE5S82DlwldU99RudMoES17inWVTQe59eMN4tLW_ldNANIvIepSVC7tgsN1uSEaRjDiP10UJ7QG0Fi9WADbXNPbYN_uL1WVS3sccEd95Jkuwpr_LplPf5Te'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-          ],
+
         ),
         body: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, profileState) {
@@ -133,12 +119,12 @@ class _ProfileViewState extends State<ProfileView> {
             // Determine displayed data
             String dispName = currentName;
             String dispEmail = currentEmail;
-            String dispPhone = currentPhone;
+
 
             if (profileState is ProfileSuccess) {
               dispName = profileState.name;
               dispEmail = profileState.email;
-              dispPhone = profileState.phone;
+
             }
 
             return SingleChildScrollView(
@@ -148,37 +134,6 @@ class _ProfileViewState extends State<ProfileView> {
                   Center(
                     child: Column(
                       children: [
-                        Stack(
-                          children: [
-                            Container(
-                              width: 112,
-                              height: 112,
-                              padding: const EdgeInsets.all(4),
-                              decoration: const BoxDecoration(color: Color(0xFFFFEADF), shape: BoxShape.circle),
-                              child: const CircleAvatar(
-                                backgroundImage: NetworkImage('https://lh3.googleusercontent.com/aida-public/AB6AXuAe8G2XUo-ccuFQCspRRZTL166nB7XYBY9EKJg9dxwvLzIHSKfoKpjNFmBFUnv6Yoz7ZtZnZGPLqlBIYwO1mRnsU78pa1YZyY3Uwz7K1fwZ2As8LhjdfjeUR_ZCj0YsV6Y6POjGVAWzTV3ykMO1ktSXehNRNIYg5eJQjcsKLpO8vDeum_cVhL0FfWjcd8emfwdNwDxU5IrTV5GXp6d1BZEw4aNsM6B3iNJ17GMN1ZkqU6Rm1bztuQyoSFtbXAUt8b9s69OVWtD_YuqY'),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: GestureDetector(
-                                onTap: () => _showEditDialog(
-                                  title: 'Name',
-                                  initialValue: dispName,
-                                  validator: (v) => (v == null || v.isEmpty) ? 'Cannot be empty' : null,
-                                  onSave: (val) => currentName = val,
-                                ),
-                                child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(color: const Color(0xFFFF7A00), shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 2)),
-                                  child: const Icon(Icons.edit, size: 18, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
                         Text(dispName, style: const TextStyle(fontFamily: 'Plus Jakarta Sans', fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xFF251912))),
                         const Text('Gourmet Explorer', style: TextStyle(fontFamily: 'Plus Jakarta Sans', fontSize: 14, color: Color(0xFF584235))),
                       ],
@@ -230,38 +185,13 @@ class _ProfileViewState extends State<ProfileView> {
                           label: 'Email Address',
                           value: dispEmail,
                           isLoading: isLoading,
-                          onEdit: () => _showEditDialog(
-                            title: 'Email',
-                            initialValue: dispEmail,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (v) => (v == null || !v.contains('@')) ? 'Enter valid email' : null,
-                            onSave: (val) => currentEmail = val,
-                          ),
                         ),
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Divider(color: Color(0xFFFFF1EA))),
-                        _buildContactItem(
-                          context,
-                          icon: Icons.phone_iphone,
-                          label: 'Phone Number',
-                          value: dispPhone,
-                          isLoading: isLoading,
-                          onEdit: () => _showEditDialog(
-                            title: 'Phone Number',
-                            initialValue: dispPhone,
-                            keyboardType: TextInputType.phone,
-                            validator: (v) => (v == null || v.isEmpty) ? 'Cannot be empty' : null,
-                            onSave: (val) => currentPhone = val,
-                          ),
-                        ),
+
                       ],
                     ),
                   ),
                   const SizedBox(height: 24),
                   
-                  _buildActionItem(icon: Icons.history, label: 'Order History', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const OrderHistoryView()))),
-                  const SizedBox(height: 12),
-                  _buildActionItem(icon: Icons.payments_outlined, label: 'Payment Methods', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const PaymentMethodsView()))),
-                  const SizedBox(height: 12),
                   _buildActionItem(icon: Icons.settings_outlined, label: 'App Settings', isLoading: isLoading, onTap: () => context.read<ProfileCubit>().updateSettings()),
                   
                   const SizedBox(height: 32),
@@ -298,13 +228,14 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildContactItem(BuildContext context, {required IconData icon, required String label, required String value, required VoidCallback onEdit, bool isLoading = false}) {
+  Widget _buildContactItem(BuildContext context, {required IconData icon, required String label, required String value, VoidCallback? onEdit, bool isLoading = false}) {
     return Row(
       children: [
         Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: const Color(0xFFE4E2E1), borderRadius: BorderRadius.circular(8)), child: Icon(icon, color: const Color(0xFF584235), size: 20)),
         const SizedBox(width: 16),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(label.toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, letterSpacing: 1.2, color: Color(0xFF584235))), Text(value, style: const TextStyle(fontSize: 16, color: Color(0xFF251912)))])),
-        TextButton(onPressed: isLoading ? null : onEdit, child: isLoading ? const SizedBox(height: 12, width: 12, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Edit', style: TextStyle(color: Color(0xFFFF7A00), fontSize: 12, fontWeight: FontWeight.w600, decoration: TextDecoration.underline))),
+        if (onEdit != null)
+          TextButton(onPressed: isLoading ? null : onEdit, child: isLoading ? const SizedBox(height: 12, width: 12, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Edit', style: TextStyle(color: Color(0xFFFF7A00), fontSize: 12, fontWeight: FontWeight.w600, decoration: TextDecoration.underline))),
       ],
     );
   }
