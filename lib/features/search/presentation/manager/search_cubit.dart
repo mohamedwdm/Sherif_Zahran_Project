@@ -6,23 +6,12 @@ import 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   final RestaurantRepo _restaurantRepo;
-  List<Restaurant> _allRestaurants = [];
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>();
 
   SearchCubit(this._restaurantRepo) : super(SearchInitial()) {
-    _loadData();
-    
     _searchSubject.stream
         .distinct()
         .listen(_performSearch);
-  }
-
-  Future<void> _loadData() async {
-    try {
-      _allRestaurants = await _restaurantRepo.getRestaurants();
-    } catch (e) {
-      emit(SearchError(e.toString()));
-    }
   }
 
   void searchProduct(String productName) {
@@ -37,19 +26,16 @@ class SearchCubit extends Cubit<SearchState> {
 
     emit(SearchSearching());
     
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 500));
-    
-    final lowerQuery = query.toLowerCase();
-    final results = _allRestaurants.where((restaurant) {
-      return restaurant.products.any((product) => 
-          product.name.toLowerCase().contains(lowerQuery));
-    }).toList();
+    try {
+      final results = await _restaurantRepo.searchRestaurantsByProduct(query);
 
-    if (results.isEmpty) {
-      emit(SearchEmpty());
-    } else {
-      emit(SearchLoaded(results));
+      if (results.isEmpty) {
+        emit(SearchEmpty());
+      } else {
+        emit(SearchLoaded(results));
+      }
+    } catch (e) {
+      emit(SearchError(e.toString()));
     }
   }
 
